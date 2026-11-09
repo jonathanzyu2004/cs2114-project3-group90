@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trip {
@@ -9,6 +10,11 @@ public class Trip {
     private List<Activity> pastActivities;
 
     public Trip(String destination, LocalDate startDate, LocalDate endDate) {
+        this.destination = destination;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.upcomingActivities = new Queue();
+        this.pastActivities = new ArrayList<>();
     }
 
     public String getDestination() {
