@@ -99,7 +99,7 @@ We will also test invalid activity information, including missing names, locatio
 
 - **[Team Member 1]:** Implement activity duration and end-time information in the Activity model.
 - **[Team Member 2]:** Implement schedule-conflict detection and automatic completion logic in the Trip model.
-- **[Team Member 3]:** Update the TripPlanner controller and TripView to support the new functionality and validate user inputs.
+- **[Angelina]:** Update the TripPlanner controller and TripView to support the new functionality and validate user inputs.
 - **[Jonathan]:** Update TripPlannerApp, write and execute tests, and help integrate the changes.
 
 All team members will participate in integration testing and bug fixing.
@@ -115,5 +115,5 @@ TripPlanner
 TripPlannerApp
 TripPlannerTest
 TripTest - Leo Chenoweth wrote w/o Ai
-TripView
-TripViewTest
+TripView - Angelina Gust wrote w/ Ai assistance
+TripViewTest - Angelina Gust wrote w/ Ai assistance
