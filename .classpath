@@ -10,4 +10,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/CS2GraphWindowLib"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CS2-Support"/>
 	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="lib/student.jar"/>
 </classpath>
