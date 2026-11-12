@@ -11,7 +11,7 @@ Trip owns an upcomingActivities queue and a List<Activity> pastActivities.
 Some of the unknowns had to do with adding more complexity with the model for example allowing mutiple different planners. For now we have attempted to keep the model simple for the MVP. We could still in the actual model include additions that may improve the model.
 
 ### What doesn't work yet? MVP features, bad-input cases, or tests that are missing or failing.
-testCompleteNextActivityEmptyQueue() does not work inside the trip class. Also aren't activities autumotaically marked as completed.
+testCompleteNextActivityEmptyQueue() does not work inside the trip class. Also activities aren't autumotaically marked as completed.
 
 ## Next Steps
 
