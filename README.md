@@ -113,9 +113,9 @@ At the end of Deliverable 4, we will compare our predicted class changes with th
 Activity
 Queue
 Trip - Leo Chenoweth wrote w/o Ai
-TripPlanner
-TripPlannerApp
-TripPlannerTest
+TripPlanner - Jonathan wrote w/ Ai assistance
+TripPlannerTest - Jonathan wrote w/ Ai assistance
+TripPlannerApp - Jonathan wrote w/ Ai assistance
 TripTest - Leo Chenoweth wrote w/o Ai
 TripView - Angelina Gust wrote w/ Ai assistance
 TripViewTest - Angelina Gust wrote w/ Ai assistance
