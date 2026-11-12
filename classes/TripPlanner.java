@@ -12,8 +12,7 @@ import java.util.ArrayList;
  * @author Jonathan Yu
  * @version 2026.11.11
  */
-public class TripPlanner
-{
+public class TripPlanner {
 
     private Trip trip;
     private TripView view;
@@ -22,43 +21,35 @@ public class TripPlanner
      * Constructs a TripPlanner with the specified view.
      *
      * @param view
-     *            the view used to interact with the user
+     *             the view used to interact with the user
      */
-    public TripPlanner(TripView view)
-    {
+    public TripPlanner(TripView view) {
         this.view = view;
         this.trip = null;
     }
-
 
     /**
      * Creates a new trip after validating the provided information.
      *
      * @param destination
-     *            the destination of the trip
+     *                    the destination of the trip
      * @param startDate
-     *            the starting date of the trip
+     *                    the starting date of the trip
      * @param endDate
-     *            the ending date of the trip
+     *                    the ending date of the trip
      * @return true if the trip was successfully created, false otherwise
      */
-    public
-        boolean
-        createTrip(String destination, LocalDate startDate, LocalDate endDate)
-    {
+    public boolean createTrip(String destination, LocalDate startDate, LocalDate endDate) {
 
-        if (destination == null || destination.trim().isEmpty())
-        {
+        if (destination == null || destination.trim().isEmpty()) {
             return false;
         }
 
-        if (startDate == null || endDate == null)
-        {
+        if (startDate == null || endDate == null) {
             return false;
         }
 
-        if (endDate.isBefore(startDate))
-        {
+        if (endDate.isBefore(startDate)) {
             return false;
         }
 
@@ -67,131 +58,112 @@ public class TripPlanner
         return true;
     }
 
-
     /**
      * Creates a new activity and adds it to the current trip.
      *
      * @param name
-     *            the name of the activity
+     *                    the name of the activity
      * @param location
-     *            the location where the activity takes place
+     *                    the location where the activity takes place
      * @param date
-     *            the date of the activity
+     *                    the date of the activity
      * @param time
-     *            the starting time of the activity
+     *                    the starting time of the activity
      * @param description
-     *            a description of the activity
+     *                    a description of the activity
      * @return true if the activity was successfully added, false otherwise
      */
     public boolean addActivity(
-        String name,
-        String location,
-        LocalDate date,
-        LocalTime time,
-        String description)
-    {
+            String name,
+            String location,
+            LocalDate date,
+            LocalTime time,
+            String description) {
 
-        if (trip == null)
-        {
+        if (trip == null) {
             return false;
         }
 
         if (name == null || name.trim().isEmpty() || location == null
-            || location.trim().isEmpty() || date == null || time == null)
-        {
+                || location.trim().isEmpty() || date == null || time == null) {
             return false;
         }
 
         if (date.isBefore(trip.getStartDate())
-            || date.isAfter(trip.getEndDate()))
-        {
+                || date.isAfter(trip.getEndDate())) {
             return false;
         }
 
-        if (activityNameExists(name))
-        {
+        if (activityNameExists(name)) {
             return false;
         }
 
-        Activity newActivity =
-            new Activity(name.trim(), location.trim(), date, time, description);
+        Activity newActivity = new Activity(name.trim(), location.trim(), date, time, description);
 
         trip.addActivity(newActivity);
 
         return true;
     }
 
-
     /**
      * Updates an existing upcoming activity in the current trip.
      *
      * @param name
-     *            the name of the activity to be updated
+     *                        the name of the activity to be updated
      * @param updatedActivity
-     *            the activity containing the updated information
+     *                        the activity containing the updated information
      * @return true if the activity was successfully updated, false otherwise
      */
-    public boolean editActivity(String name, Activity updatedActivity)
-    {
+    public boolean editActivity(String name, Activity updatedActivity) {
 
         if (trip == null || name == null || name.trim().isEmpty()
-            || updatedActivity == null)
-        {
+                || updatedActivity == null) {
             return false;
         }
 
         String originalName = findUpcomingActivityName(name);
 
-        if (originalName == null)
-        {
+        if (originalName == null) {
             return false;
         }
 
-        if (!isValidActivity(updatedActivity))
-        {
+        if (!isValidActivity(updatedActivity)) {
             return false;
         }
 
         if (updatedActivity.getDate().isBefore(trip.getStartDate())
-            || updatedActivity.getDate().isAfter(trip.getEndDate()))
-        {
+                || updatedActivity.getDate().isAfter(trip.getEndDate())) {
             return false;
         }
 
-        if (activityNameExistsExcept(updatedActivity.getName(), originalName))
-        {
+        if (activityNameExistsExcept(updatedActivity.getName(), originalName)) {
             return false;
         }
 
         return trip.editActivity(originalName, updatedActivity);
     }
 
-
     /**
      * Removes an upcoming activity from the current trip.
      *
      * @param name
-     *            the name of the activity to be deleted
+     *             the name of the activity to be deleted
      * @return true if the activity was successfully deleted, false otherwise
      */
-    public boolean deleteActivity(String name)
-    {
+    public boolean deleteActivity(String name) {
 
-        if (trip == null || name == null || name.trim().isEmpty())
-        {
+        if (trip == null || name == null || name.trim().isEmpty()) {
             return false;
         }
 
         String originalName = findUpcomingActivityName(name);
 
-        if (originalName == null)
-        {
+        if (originalName == null) {
             return false;
         }
 
         return trip.removeActivity(originalName);
     }
-
 
     /**
      * Completes the next upcoming activity and moves it to the past activities
@@ -199,11 +171,9 @@ public class TripPlanner
      *
      * @return true if an activity was successfully completed, false otherwise
      */
-    public boolean completeNextActivity()
-    {
+    public boolean completeNextActivity() {
 
-        if (trip == null || trip.getUpcomingActivities().isEmpty())
-        {
+        if (trip == null || trip.getUpcomingActivities().isEmpty()) {
             return false;
         }
 
@@ -212,80 +182,65 @@ public class TripPlanner
         return completed != null;
     }
 
-
     /**
      * Retrieves the next upcoming activity in the current trip.
      *
      * @return the next upcoming Activity, or null if none exists
      */
-    public Activity viewNextActivity()
-    {
+    public Activity viewNextActivity() {
 
-        if (trip == null || trip.getUpcomingActivities().isEmpty())
-        {
+        if (trip == null || trip.getUpcomingActivities().isEmpty()) {
             return null;
         }
 
         return trip.getNextActivity();
     }
 
-
     /**
      * Retrieves all upcoming activities in the current trip.
      *
      * @return a list containing all upcoming activities
      */
-    public List<Activity> viewUpcomingActivities()
-    {
+    public List<Activity> viewUpcomingActivities() {
 
-        if (trip == null)
-        {
+        if (trip == null) {
             return new ArrayList<Activity>();
         }
 
         return trip.getUpcomingActivities();
     }
 
-
     /**
      * Retrieves all completed activities in the current trip.
      *
      * @return a list containing all past activities
      */
-    public List<Activity> viewPastActivities()
-    {
+    public List<Activity> viewPastActivities() {
 
-        if (trip == null)
-        {
+        if (trip == null) {
             return new ArrayList<Activity>();
         }
 
         return trip.getPastActivity();
     }
 
-
     /**
      * Checks whether an activity name already exists in either list.
      *
      * @param name
-     *            the activity name to check
+     *             the activity name to check
      * @return true if the name already exists
      */
-    private boolean activityNameExists(String name)
-    {
+    private boolean activityNameExists(String name) {
 
-        for (Activity activity : trip.getUpcomingActivities())
-        {
-            if (sameName(activity.getName(), name))
-            {
+        for (Activity activity : trip.getUpcomingActivities()) {
+            if (sameName(activity.getName(), name)) {
                 return true;
             }
         }
 
-        for (Activity activity : trip.getPastActivity())
-        {
-            if (sameName(activity.getName(), name))
-            {
+        for (Activity activity : trip.getPastActivity()) {
+            if (sameName(activity.getName(), name)) {
                 return true;
             }
         }
@@ -293,27 +248,22 @@ public class TripPlanner
         return false;
     }
 
-
     /**
      * Finds and returns the actual stored name of an upcoming activity. Name
      * matching ignores capitalization and surrounding whitespace.
      *
      * @param name
-     *            the activity name to find
+     *             the activity name to find
      * @return the exact stored name, or null if the activity does not exist
      */
-    private String findUpcomingActivityName(String name)
-    {
+    private String findUpcomingActivityName(String name) {
 
-        if (name == null || trip == null)
-        {
+        if (name == null || trip == null) {
             return null;
         }
 
-        for (Activity activity : trip.getUpcomingActivities())
-        {
-            if (sameName(activity.getName(), name))
-            {
+        for (Activity activity : trip.getUpcomingActivities()) {
+            if (sameName(activity.getName(), name)) {
                 return activity.getName();
             }
         }
@@ -321,32 +271,26 @@ public class TripPlanner
         return null;
     }
 
-
     /**
      * Checks for duplicate names while excluding the activity being edited.
      *
      * @param newName
-     *            the proposed new name
+     *                the proposed new name
      * @param oldName
-     *            the current activity name
+     *                the current activity name
      * @return true if another activity already has the new name
      */
-    private boolean activityNameExistsExcept(String newName, String oldName)
-    {
+    private boolean activityNameExistsExcept(String newName, String oldName) {
 
-        for (Activity activity : trip.getUpcomingActivities())
-        {
+        for (Activity activity : trip.getUpcomingActivities()) {
             if (!sameName(activity.getName(), oldName)
-                && sameName(activity.getName(), newName))
-            {
+                    && sameName(activity.getName(), newName)) {
                 return true;
             }
         }
 
-        for (Activity activity : trip.getPastActivity())
-        {
-            if (sameName(activity.getName(), newName))
-            {
+        for (Activity activity : trip.getPastActivity()) {
+            if (sameName(activity.getName(), newName)) {
                 return true;
             }
         }
@@ -354,39 +298,35 @@ public class TripPlanner
         return false;
     }
 
-
     /**
      * Checks whether two activity names are equivalent. Matching ignores
      * capitalization and surrounding whitespace.
      *
      * @param first
-     *            the first name
+     *               the first name
      * @param second
-     *            the second name
+     *               the second name
      * @return true if the names match
      */
-    private boolean sameName(String first, String second)
-    {
+    private boolean sameName(String first, String second) {
 
         return first != null && second != null
-            && first.trim().equalsIgnoreCase(second.trim());
+                && first.trim().equalsIgnoreCase(second.trim());
     }
-
 
     /**
      * Checks whether an activity has all required information.
      *
      * @param activity
-     *            the activity to validate
+     *                 the activity to validate
      * @return true if all required fields are valid
      */
-    private boolean isValidActivity(Activity activity)
-    {
+    private boolean isValidActivity(Activity activity) {
 
         return activity != null && activity.getName() != null
-            && !activity.getName().trim().isEmpty()
-            && activity.getLocation() != null
-            && !activity.getLocation().trim().isEmpty()
-            && activity.getDate() != null && activity.getTime() != null;
+                && !activity.getName().trim().isEmpty()
+                && activity.getLocation() != null
+                && !activity.getLocation().trim().isEmpty()
+                && activity.getDate() != null && activity.getTime() != null;
     }
 }

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class TestTrip {
+public class TripTest {
 
     private final LocalDate startDate = LocalDate.of(2026, 6, 1);
     private final LocalDate endDate = LocalDate.of(2026, 6, 10);

@@ -1,8 +1,7 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Activity
-{
+public class Activity {
     private String name;
     private String location;
     private LocalDate date;
@@ -14,127 +13,94 @@ public class Activity
      * Constructs a new Activity
      * 
      * @param name
-     *            Activity name
+     *                    Activity name
      * @param location
-     *            Activity location
+     *                    Activity location
      * @param date
-     *            Activity date
+     *                    Activity date
      * @param time
-     *            Activity start time
+     *                    Activity start time
      * @param description
-     *            Activity description
+     *                    Activity description
      */
     public Activity(
-        String name,
-        String location,
-        LocalDate date,
-        LocalTime time,
-        String description)
-    {
+            String name,
+            String location,
+            LocalDate date,
+            LocalTime time,
+            String description) {
         this.name = name;
         this.location = location;
         this.date = date;
         this.time = time;
-        if (description == null || description.trim().isEmpty())
-        {
+        if (description == null || description.trim().isEmpty()) {
             this.description = "No description";
-        }
-        else
-        {
+        } else {
             this.description = description;
         }
         this.completed = false;
     }
 
-
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-
-    public String getLocation()
-    {
+    public String getLocation() {
         return location;
     }
 
-
-    public LocalDate getDate()
-    {
+    public LocalDate getDate() {
         return date;
     }
 
-
-    public LocalTime getTime()
-    {
+    public LocalTime getTime() {
         return time;
     }
 
-
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-
-    public boolean isCompleted()
-    {
+    public boolean isCompleted() {
         return completed;
     }
 
-
-    public void setName(String name)
-    {
-        if (name != null && !name.trim().isEmpty())
-        {
+    public void setName(String name) {
+        if (name != null && !name.trim().isEmpty()) {
             this.name = name;
         }
     }
 
-
-    public void setLocation(String location)
-    {
-        if (location != null)
-        {
+    public void setLocation(String location) {
+        if (location != null) {
             this.location = location;
         }
     }
 
-
-    public void setDate(LocalDate date)
-    {
-        if (date != null)
-        {
+    public void setDate(LocalDate date) {
+        if (date != null) {
             this.date = date;
         }
     }
 
-
-    public void setTime(LocalTime time)
-    {
-        if (time != null)
-        {
+    public void setTime(LocalTime time) {
+        if (time != null) {
             this.time = time;
         }
     }
 
-
-    public void setDescription(String description)
-    {
-        if (description != null)
-        {
+    public void setDescription(String description) {
+        if (description != null) {
             this.description = description;
         }
     }
-
 
     /**
      * Updates completion status
      * 
      * @return boolean updated completion status
      */
-    public boolean setCompleted()
-    {
+    public boolean setCompleted() {
         this.completed = true;
         return this.completed;
     }

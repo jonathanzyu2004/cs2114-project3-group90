@@ -10,350 +10,302 @@ import java.time.LocalTime;
  * @version 2026.11.11
  */
 public class TripPlannerTest
-    extends TestCase
-{
+        extends TestCase {
 
     private TripPlanner planner;
 
     /**
      * Sets up a new TripPlanner before each test.
      */
-    public void setUp()
-    {
+    public void setUp() {
         TripView view = new TripView();
         planner = new TripPlanner(view);
     }
 
-
     /**
      * Tests creating a trip with valid information.
      */
-    public void testCreateTripValid()
-    {
+    public void testCreateTripValid() {
         assertTrue(
-            planner.createTrip(
-                "New York",
-                LocalDate.of(2027, 1, 10),
-                LocalDate.of(2027, 1, 15)));
+                planner.createTrip(
+                        "New York",
+                        LocalDate.of(2027, 1, 10),
+                        LocalDate.of(2027, 1, 15)));
     }
-
 
     /**
      * Tests creating a trip with an empty destination.
      */
-    public void testCreateTripEmptyDestination()
-    {
+    public void testCreateTripEmptyDestination() {
         assertFalse(
-            planner.createTrip(
-                "",
-                LocalDate.of(2027, 1, 10),
-                LocalDate.of(2027, 1, 15)));
+                planner.createTrip(
+                        "",
+                        LocalDate.of(2027, 1, 10),
+                        LocalDate.of(2027, 1, 15)));
     }
-
 
     /**
      * Tests creating a trip with a null destination.
      */
-    public void testCreateTripNullDestination()
-    {
+    public void testCreateTripNullDestination() {
         assertFalse(
-            planner.createTrip(
-                null,
-                LocalDate.of(2027, 1, 10),
-                LocalDate.of(2027, 1, 15)));
+                planner.createTrip(
+                        null,
+                        LocalDate.of(2027, 1, 10),
+                        LocalDate.of(2027, 1, 15)));
     }
-
 
     /**
      * Tests creating a trip with a null start date.
      */
-    public void testCreateTripNullStartDate()
-    {
+    public void testCreateTripNullStartDate() {
         assertFalse(
-            planner.createTrip("New York", null, LocalDate.of(2027, 1, 15)));
+                planner.createTrip("New York", null, LocalDate.of(2027, 1, 15)));
     }
-
 
     /**
      * Tests creating a trip with a null end date.
      */
-    public void testCreateTripNullEndDate()
-    {
+    public void testCreateTripNullEndDate() {
         assertFalse(
-            planner.createTrip("New York", LocalDate.of(2027, 1, 10), null));
+                planner.createTrip("New York", LocalDate.of(2027, 1, 10), null));
     }
-
 
     /**
      * Tests creating a trip when the end date is before the start date.
      */
-    public void testCreateTripEndBeforeStart()
-    {
+    public void testCreateTripEndBeforeStart() {
         assertFalse(
-            planner.createTrip(
-                "New York",
-                LocalDate.of(2027, 1, 15),
-                LocalDate.of(2027, 1, 10)));
+                planner.createTrip(
+                        "New York",
+                        LocalDate.of(2027, 1, 15),
+                        LocalDate.of(2027, 1, 10)));
     }
-
 
     /**
      * Tests successfully adding an activity.
      */
-    public void testAddActivityValid()
-    {
+    public void testAddActivityValid() {
         createValidTrip();
 
         assertTrue(addTestActivity("Museum", 11, 10));
         assertEquals(1, planner.viewUpcomingActivities().size());
     }
 
-
     /**
      * Tests adding an activity without first creating a trip.
      */
-    public void testAddActivityWithoutTrip()
-    {
+    public void testAddActivityWithoutTrip() {
         assertFalse(addTestActivity("Museum", 11, 10));
     }
-
 
     /**
      * Tests adding an activity with a null name.
      */
-    public void testAddActivityNullName()
-    {
+    public void testAddActivityNullName() {
         createValidTrip();
 
         assertFalse(
-            planner.addActivity(
-                null,
-                "New York",
-                LocalDate.of(2027, 1, 11),
-                LocalTime.of(10, 0),
-                "Test description"));
+                planner.addActivity(
+                        null,
+                        "New York",
+                        LocalDate.of(2027, 1, 11),
+                        LocalTime.of(10, 0),
+                        "Test description"));
     }
-
 
     /**
      * Tests adding an activity with an empty name.
      */
-    public void testAddActivityEmptyName()
-    {
+    public void testAddActivityEmptyName() {
         createValidTrip();
 
         assertFalse(
-            planner.addActivity(
-                "",
-                "New York",
-                LocalDate.of(2027, 1, 11),
-                LocalTime.of(10, 0),
-                "Test description"));
+                planner.addActivity(
+                        "",
+                        "New York",
+                        LocalDate.of(2027, 1, 11),
+                        LocalTime.of(10, 0),
+                        "Test description"));
     }
-
 
     /**
      * Tests adding an activity with a null location.
      */
-    public void testAddActivityNullLocation()
-    {
+    public void testAddActivityNullLocation() {
         createValidTrip();
 
         assertFalse(
-            planner.addActivity(
-                "Museum",
-                null,
-                LocalDate.of(2027, 1, 11),
-                LocalTime.of(10, 0),
-                "Test description"));
+                planner.addActivity(
+                        "Museum",
+                        null,
+                        LocalDate.of(2027, 1, 11),
+                        LocalTime.of(10, 0),
+                        "Test description"));
     }
-
 
     /**
      * Tests adding an activity with a null date.
      */
-    public void testAddActivityNullDate()
-    {
+    public void testAddActivityNullDate() {
         createValidTrip();
 
         assertFalse(
-            planner.addActivity(
-                "Museum",
-                "New York",
-                null,
-                LocalTime.of(10, 0),
-                "Test description"));
+                planner.addActivity(
+                        "Museum",
+                        "New York",
+                        null,
+                        LocalTime.of(10, 0),
+                        "Test description"));
     }
-
 
     /**
      * Tests adding an activity with a null time.
      */
-    public void testAddActivityNullTime()
-    {
+    public void testAddActivityNullTime() {
         createValidTrip();
 
         assertFalse(
-            planner.addActivity(
-                "Museum",
-                "New York",
-                LocalDate.of(2027, 1, 11),
-                null,
-                "Test description"));
+                planner.addActivity(
+                        "Museum",
+                        "New York",
+                        LocalDate.of(2027, 1, 11),
+                        null,
+                        "Test description"));
     }
-
 
     /**
      * Tests adding an activity outside the trip dates.
      */
-    public void testAddActivityOutsideTripDates()
-    {
+    public void testAddActivityOutsideTripDates() {
         createValidTrip();
 
         assertFalse(addTestActivity("Museum", 16, 10));
     }
 
-
     /**
      * Tests preventing duplicate activity names regardless of capitalization.
      */
-    public void testAddActivityDuplicateName()
-    {
+    public void testAddActivityDuplicateName() {
         createValidTrip();
 
         assertTrue(addTestActivity("Museum", 11, 10));
         assertFalse(addTestActivity("museum", 12, 10));
     }
 
-
     /**
      * Tests successfully editing an existing activity.
      */
-    public void testEditActivityValid()
-    {
+    public void testEditActivityValid() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
 
         Activity updatedActivity = new Activity(
-            "Museum",
-            "New York City Museum",
-            LocalDate.of(2027, 1, 11),
-            LocalTime.of(11, 0),
-            "Updated description");
+                "Museum",
+                "New York City Museum",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(11, 0),
+                "Updated description");
 
         assertTrue(planner.editActivity("Museum", updatedActivity));
     }
 
-
     /**
      * Tests editing an activity using a name with different capitalization.
      */
-    public void testEditActivityDifferentCapitalization()
-    {
+    public void testEditActivityDifferentCapitalization() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
 
         Activity updatedActivity = new Activity(
-            "Museum",
-            "New York City Museum",
-            LocalDate.of(2027, 1, 11),
-            LocalTime.of(11, 0),
-            "Updated description");
+                "Museum",
+                "New York City Museum",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(11, 0),
+                "Updated description");
 
         assertTrue(planner.editActivity("museum", updatedActivity));
     }
 
-
     /**
      * Tests attempting to edit an activity that does not exist.
      */
-    public void testEditActivityDoesNotExist()
-    {
+    public void testEditActivityDoesNotExist() {
         createValidTrip();
 
         Activity updatedActivity = new Activity(
-            "Museum",
-            "New York",
-            LocalDate.of(2027, 1, 11),
-            LocalTime.of(10, 0),
-            "Updated description");
+                "Museum",
+                "New York",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(10, 0),
+                "Updated description");
 
         assertFalse(planner.editActivity("Museum", updatedActivity));
     }
-
 
     /**
      * Tests attempting to edit an activity without creating a trip.
      */
-    public void testEditActivityWithoutTrip()
-    {
+    public void testEditActivityWithoutTrip() {
         Activity updatedActivity = new Activity(
-            "Museum",
-            "New York",
-            LocalDate.of(2027, 1, 11),
-            LocalTime.of(10, 0),
-            "Updated description");
+                "Museum",
+                "New York",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(10, 0),
+                "Updated description");
 
         assertFalse(planner.editActivity("Museum", updatedActivity));
     }
 
-
     /**
      * Tests editing an activity with a duplicate name.
      */
-    public void testEditActivityDuplicateName()
-    {
+    public void testEditActivityDuplicateName() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
         addTestActivity("Aquarium", 12, 10);
 
         Activity updatedActivity = new Activity(
-            "Aquarium",
-            "New York",
-            LocalDate.of(2027, 1, 11),
-            LocalTime.of(11, 0),
-            "Updated description");
+                "Aquarium",
+                "New York",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(11, 0),
+                "Updated description");
 
         assertFalse(planner.editActivity("Museum", updatedActivity));
     }
-
 
     /**
      * Tests editing an activity to a date outside the trip dates.
      */
-    public void testEditActivityOutsideTripDates()
-    {
+    public void testEditActivityOutsideTripDates() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
 
         Activity updatedActivity = new Activity(
-            "Museum",
-            "New York",
-            LocalDate.of(2027, 1, 16),
-            LocalTime.of(11, 0),
-            "Updated description");
+                "Museum",
+                "New York",
+                LocalDate.of(2027, 1, 16),
+                LocalTime.of(11, 0),
+                "Updated description");
 
         assertFalse(planner.editActivity("Museum", updatedActivity));
     }
 
-
     /**
      * Tests editing an activity with a null updated activity.
      */
-    public void testEditActivityNullUpdatedActivity()
-    {
+    public void testEditActivityNullUpdatedActivity() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
 
         assertFalse(planner.editActivity("Museum", null));
     }
 
-
     /**
      * Tests successfully deleting an upcoming activity.
      */
-    public void testDeleteActivityValid()
-    {
+    public void testDeleteActivityValid() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
 
@@ -361,12 +313,10 @@ public class TripPlannerTest
         assertNull(planner.viewNextActivity());
     }
 
-
     /**
      * Tests deleting an activity using a name with different capitalization.
      */
-    public void testDeleteActivityDifferentCapitalization()
-    {
+    public void testDeleteActivityDifferentCapitalization() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
 
@@ -374,32 +324,26 @@ public class TripPlannerTest
         assertNull(planner.viewNextActivity());
     }
 
-
     /**
      * Tests attempting to delete an activity that does not exist.
      */
-    public void testDeleteActivityDoesNotExist()
-    {
+    public void testDeleteActivityDoesNotExist() {
         createValidTrip();
 
         assertFalse(planner.deleteActivity("Museum"));
     }
 
-
     /**
      * Tests attempting to delete an activity without creating a trip.
      */
-    public void testDeleteActivityWithoutTrip()
-    {
+    public void testDeleteActivityWithoutTrip() {
         assertFalse(planner.deleteActivity("Museum"));
     }
-
 
     /**
      * Tests successfully completing the next upcoming activity.
      */
-    public void testCompleteNextActivityValid()
-    {
+    public void testCompleteNextActivityValid() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
 
@@ -408,23 +352,19 @@ public class TripPlannerTest
         assertEquals(0, planner.viewUpcomingActivities().size());
     }
 
-
     /**
      * Tests completing an activity when no upcoming activities exist.
      */
-    public void testCompleteNextActivityEmpty()
-    {
+    public void testCompleteNextActivityEmpty() {
         createValidTrip();
 
         assertFalse(planner.completeNextActivity());
     }
 
-
     /**
      * Tests completing activities in the order they were added.
      */
-    public void testCompleteActivitiesInOrder()
-    {
+    public void testCompleteActivitiesInOrder() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
         addTestActivity("Aquarium", 12, 10);
@@ -438,12 +378,10 @@ public class TripPlannerTest
         assertFalse(planner.completeNextActivity());
     }
 
-
     /**
      * Tests retrieving the next upcoming activity.
      */
-    public void testViewNextActivity()
-    {
+    public void testViewNextActivity() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
         addTestActivity("Aquarium", 12, 10);
@@ -451,23 +389,19 @@ public class TripPlannerTest
         assertEquals("Museum", planner.viewNextActivity().getName());
     }
 
-
     /**
      * Tests retrieving the next activity when the upcoming list is empty.
      */
-    public void testViewNextActivityEmpty()
-    {
+    public void testViewNextActivityEmpty() {
         createValidTrip();
 
         assertNull(planner.viewNextActivity());
     }
 
-
     /**
      * Tests retrieving all upcoming activities.
      */
-    public void testViewUpcomingActivities()
-    {
+    public void testViewUpcomingActivities() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
         addTestActivity("Aquarium", 12, 10);
@@ -475,23 +409,19 @@ public class TripPlannerTest
         assertEquals(2, planner.viewUpcomingActivities().size());
     }
 
-
     /**
      * Tests retrieving past activities when none have been completed.
      */
-    public void testViewPastActivitiesInitiallyEmpty()
-    {
+    public void testViewPastActivitiesInitiallyEmpty() {
         createValidTrip();
 
         assertEquals(0, planner.viewPastActivities().size());
     }
 
-
     /**
      * Tests retrieving past activities after completing an activity.
      */
-    public void testViewPastActivitiesAfterCompletion()
-    {
+    public void testViewPastActivitiesAfterCompletion() {
         createValidTrip();
         addTestActivity("Museum", 11, 10);
 
@@ -500,48 +430,42 @@ public class TripPlannerTest
         assertEquals(1, planner.viewPastActivities().size());
     }
 
-
     /**
      * Tests view methods when no trip has been created.
      */
-    public void testViewMethodsWithoutTrip()
-    {
+    public void testViewMethodsWithoutTrip() {
         assertNull(planner.viewNextActivity());
         assertEquals(0, planner.viewUpcomingActivities().size());
         assertEquals(0, planner.viewPastActivities().size());
     }
 
-
     /**
      * Creates a valid trip for testing.
      */
-    private void createValidTrip()
-    {
+    private void createValidTrip() {
         planner.createTrip(
-            "New York",
-            LocalDate.of(2027, 1, 10),
-            LocalDate.of(2027, 1, 15));
+                "New York",
+                LocalDate.of(2027, 1, 10),
+                LocalDate.of(2027, 1, 15));
     }
-
 
     /**
      * Adds a test activity using the specified name, day, and hour.
      *
      * @param name
-     *            the activity name
+     *             the activity name
      * @param day
-     *            the day of January 2027
+     *             the day of January 2027
      * @param hour
-     *            the activity start hour
+     *             the activity start hour
      * @return true if the activity was successfully added
      */
-    private boolean addTestActivity(String name, int day, int hour)
-    {
+    private boolean addTestActivity(String name, int day, int hour) {
         return planner.addActivity(
-            name,
-            "New York",
-            LocalDate.of(2027, 1, day),
-            LocalTime.of(hour, 0),
-            "Test description");
+                name,
+                "New York",
+                LocalDate.of(2027, 1, day),
+                LocalTime.of(hour, 0),
+                "Test description");
     }
 }
