@@ -240,7 +240,7 @@ public class TripView
     /**
      * Displays one activity.
      * 
-     * @param Activity activity 
+     * @param activity activity 
      */
     public void displayActivity(Activity activity)
     {

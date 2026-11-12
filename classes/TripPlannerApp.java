@@ -1,4 +1,6 @@
-
+import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalTime;
 /**
  * Starts and runs the Trip Planner application.
  *
@@ -15,7 +17,9 @@ public class TripPlannerApp
      */
     public static void main(String[] args)
     {
-        TripView view = new TripView();
+        Scanner input = new Scanner(System.in);
+        
+        TripView view = new TripView(input);
         TripPlanner planner = new TripPlanner(view);
 
         boolean running = true;
@@ -66,14 +70,40 @@ public class TripPlannerApp
                     break;
 
                 case 3:
-                    String editName =
-                        view.askRequiredActivityNameForEditing();
-                    // Add the edit workflow here.
+                    System.out.print("Enter activity name to edit: ");
+                    String editName = input.nextLine();
+
+                    System.out.print("Enter new activity name: ");
+                    String newName = input.nextLine();
+
+                    System.out.print("Enter new location: ");
+                    String newLocation = input.nextLine();
+
+                    System.out.print("Enter new date (YYYY-MM-DD): ");
+                    LocalDate newDate = LocalDate.parse(input.nextLine());
+
+                    System.out.print("Enter new time (HH:MM): ");
+                    LocalTime newTime = LocalTime.parse(input.nextLine());
+
+                    System.out.print("Enter new description: ");
+                    String newDescription = input.nextLine();
+
+                    Activity updatedActivity = new Activity(
+                        newName, newLocation, newDate, newTime, newDescription);
+
+                    if (planner.editActivity(editName, updatedActivity))
+                    {
+                        view.displayMessage("Activity updated successfully!");
+                    }
+                    else
+                    {
+                        view.displayMessage("Unable to edit activity.");
+                    }
                     break;
 
                 case 4:
-                    String deleteName =
-                        view.askRequiredActivityNameForDeletion();
+                    System.out.print("Enter activity name to delete: ");
+                    String deleteName = input.nextLine();
 
                     if (planner.deleteActivity(deleteName))
                     {
