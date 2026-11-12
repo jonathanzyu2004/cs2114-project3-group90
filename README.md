@@ -99,7 +99,7 @@ We will also test invalid activity information, including missing names, locatio
 
 ### 5. Team Responsibilities
 
-- **[Team Member 1]:** Implement activity duration and end-time information in the Activity model.
+- **[Alex]:** Implement activity duration and end-time information in the Activity model.
 - **[Leo]:** Implement schedule-conflict detection and automatic completion logic in the Trip model.
 - **[Angelina]:** Update the TripPlanner controller and TripView to support the new functionality and validate user inputs.
 - **[Jonathan]:** Update TripPlannerApp, write and execute tests, and help integrate the changes.
@@ -110,8 +110,8 @@ At the end of Deliverable 4, we will compare our predicted class changes with th
 
 ## Attribution table
 
-Activity
-Queue
+Activity - Alexander Chai wrote w/o Ai assistance
+Queue - Alexander Chai wrote w/o Ai assistance
 Trip - Leo Chenoweth wrote w/o Ai
 TripPlanner - Jonathan wrote w/ Ai assistance
 TripPlannerTest - Jonathan wrote w/ Ai assistance
