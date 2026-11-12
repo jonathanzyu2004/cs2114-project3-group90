@@ -6,6 +6,7 @@ A couple of the methods in trip and triptest were spelled incorrectly which were
 ### Did the model really stand alone? Was there anything you had to move across the model/view line to make it run, or anything in the model that still knows about the view?
 
 ### What happened to your unknowns? Of the things you listed in your scope as not knowing how to do, which did you figure out, and which are still open?
+Some of the unknowns had to do with adding more complexity with the model for example allowing mutiple different planners. For now we have attempted to keep the model simple for the MVP. We could still in the actual model include additions that may improve the model.
 
 ### What doesn't work yet? MVP features, bad-input cases, or tests that are missing or failing.
 1 of the test methods for trip still does not pass.
