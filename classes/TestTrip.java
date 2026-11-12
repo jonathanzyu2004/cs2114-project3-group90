@@ -1,12 +1,9 @@
+import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-//me think one of these shiould work but they don't
-import student.TestCase;
-import org.junit.jupiter.api.Test;
-import org.junit.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class TestTrip {
 
@@ -23,6 +20,7 @@ public class TestTrip {
     }
 
     // Test Trip constructor
+    @Test
     public void testTrip() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -33,18 +31,21 @@ public class TestTrip {
     }
 
     // Test getters
+    @Test
     public void testGetDestination() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
         assertEquals("Toronto", trip.getDestination());
     }
 
+    @Test
     public void testGetStartDate() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
         assertEquals(startDate, trip.getStartDate());
     }
 
+    @Test
     public void testGetEndDate() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -52,6 +53,7 @@ public class TestTrip {
     }
 
     // Test setters
+    @Test
     public void testSetDestination() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -64,6 +66,7 @@ public class TestTrip {
         assertEquals("Montreal", trip.getDestination());
     }
 
+    @Test
     public void testSetStartDate() {
         Trip trip = new Trip("Toronto", startDate, endDate);
         LocalDate newDate = LocalDate.of(2026, 6, 3);
@@ -77,6 +80,7 @@ public class TestTrip {
         assertEquals(newDate, trip.getStartDate());
     }
 
+    @Test
     public void testSetEndDate() {
         Trip trip = new Trip("Toronto", startDate, endDate);
         LocalDate newDate = LocalDate.of(2026, 6, 15);
@@ -91,6 +95,7 @@ public class TestTrip {
     }
 
     // Test adding activities
+    @Test
     public void testAddActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
         Activity activity = createActivity("Museum");
@@ -101,6 +106,7 @@ public class TestTrip {
         assertSame(activity, trip.getUpcomingActivities().get(0));
     }
 
+    @Test
     public void testAddNullActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -110,6 +116,7 @@ public class TestTrip {
     }
 
     // Test removing activities
+    @Test
     public void testRemoveActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -124,6 +131,7 @@ public class TestTrip {
         assertSame(activity2, trip.getUpcomingActivities().get(0));
     }
 
+    @Test
     public void testRemoveNonexistentActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
         Activity activity = createActivity("Museum");
@@ -136,6 +144,7 @@ public class TestTrip {
     }
 
     // Test editing activities
+    @Test
     public void testEditActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -155,6 +164,7 @@ public class TestTrip {
         assertSame(other, activities.get(1));
     }
 
+    @Test
     public void testEditNonexistentActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -170,6 +180,7 @@ public class TestTrip {
     }
 
     // Test completing the next activity
+    @Test
     public void testCompleteNextActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -179,7 +190,7 @@ public class TestTrip {
         trip.addActivity(activity1);
         trip.addActivity(activity2);
 
-        Activity completed = trip.completeNextAcitivity();
+        Activity completed = trip.completeNextActivity();
 
         assertSame(activity1, completed);
         assertTrue(activity1.isCompleted());
@@ -188,14 +199,16 @@ public class TestTrip {
         assertSame(activity1, trip.getPastActivity().get(0));
     }
 
+    @Test
     public void testCompleteNextActivityEmptyQueue() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        assertNull(trip.completeNextAcitivity());
+        assertNull(trip.completeNextActivity());
         assertTrue(trip.getPastActivity().isEmpty());
     }
 
     // Test upcoming activities
+    @Test
     public void testGetUpcomingActivities() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -212,6 +225,7 @@ public class TestTrip {
         assertSame(activity2, activities.get(1));
     }
 
+    @Test
     public void testGetUpcomingActivitiesEmpty() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -219,6 +233,7 @@ public class TestTrip {
     }
 
     // Test next activity
+    @Test
     public void testGetNextActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -234,6 +249,7 @@ public class TestTrip {
         assertEquals(2, trip.getUpcomingActivities().size());
     }
 
+    @Test
     public void testGetNextActivityEmpty() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -241,6 +257,7 @@ public class TestTrip {
     }
 
     // Test past activities
+    @Test
     public void testGetPastActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -250,8 +267,8 @@ public class TestTrip {
         trip.addActivity(activity1);
         trip.addActivity(activity2);
 
-        trip.completeNextAcitivity();
-        trip.completeNextAcitivity();
+        trip.completeNextActivity();
+        trip.completeNextActivity();
 
         List<Activity> past = trip.getPastActivity();
 
@@ -260,6 +277,7 @@ public class TestTrip {
         assertSame(activity2, past.get(1));
     }
 
+    @Test
     public void testGetPastActivityEmpty() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
