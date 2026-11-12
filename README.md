@@ -1,3 +1,15 @@
+## Reflection
+
+### What changed from your specification? Classes, method signatures, where validation lives, test cases — what did the spec say, what did you build instead, and why?
+Trip and tripTest both followed teh specifications exactly
+
+### Did the model really stand alone? Was there anything you had to move across the model/view line to make it run, or anything in the model that still knows about the view?
+
+### What happened to your unknowns? Of the things you listed in your scope as not knowing how to do, which did you figure out, and which are still open?
+
+### What doesn't work yet? MVP features, bad-input cases, or tests that are missing or failing.
+1 of the test methods for trip still does not pass.
+
 ## Next Steps
 
 ### 1. Remaining MVP Work
@@ -92,3 +104,15 @@ We will also test invalid activity information, including missing names, locatio
 All team members will participate in integration testing and bug fixing.
 
 At the end of Deliverable 4, we will compare our predicted class changes with the actual classes modified to evaluate our design decisions and separation of responsibilities.
+
+## Attribution table
+
+Activity
+Queue
+Trip - Leo Chenoweth wrote w/o Ai
+TripPlanner
+TripPlannerApp
+TripPlannerTest
+TripTest - Leo Chenoweth wrote w/o Ai
+TripView
+TripViewTest
