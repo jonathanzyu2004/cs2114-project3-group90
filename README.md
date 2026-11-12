@@ -9,7 +9,7 @@ A couple of the methods in trip and triptest were spelled incorrectly which were
 Some of the unknowns had to do with adding more complexity with the model for example allowing mutiple different planners. For now we have attempted to keep the model simple for the MVP. We could still in the actual model include additions that may improve the model.
 
 ### What doesn't work yet? MVP features, bad-input cases, or tests that are missing or failing.
-1 of the test methods for trip still does not pass.
+testCompleteNextActivityEmptyQueue() does not work inside the trip class. Also aren't activities autumotaically marked as completed.
 
 ## Next Steps
 
@@ -98,7 +98,7 @@ We will also test invalid activity information, including missing names, locatio
 ### 5. Team Responsibilities
 
 - **[Team Member 1]:** Implement activity duration and end-time information in the Activity model.
-- **[Team Member 2]:** Implement schedule-conflict detection and automatic completion logic in the Trip model.
+- **[Leo]:** Implement schedule-conflict detection and automatic completion logic in the Trip model.
 - **[Angelina]:** Update the TripPlanner controller and TripView to support the new functionality and validate user inputs.
 - **[Jonathan]:** Update TripPlannerApp, write and execute tests, and help integrate the changes.
 
