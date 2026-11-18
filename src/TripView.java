@@ -130,6 +130,11 @@ public class TripView
      */
     public LocalDate askTripEndDate(LocalDate startDate)
     {
+        if (startDate == null)
+        {
+            throw new IllegalArgumentException("Start date can't be null.");
+        }
+        
         while (true)
         {
             LocalDate endDate = askDate("Enter trip end date (YYYY-MM-DD): ");

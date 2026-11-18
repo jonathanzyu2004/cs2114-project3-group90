@@ -133,9 +133,28 @@ public class TripViewTest
 
         assertEquals(LocalDate.of(2026, 2, 1), view.askTripEndDate(start));
     }
-
-
+    
+    
     /**
+     * Tests the askTripEndDate method if the start date is null.
+     */
+    public void testAskTripEndDateNullStart()
+    {
+        TripView view = createView("");
+
+        try
+        {
+            view.askTripEndDate(null);
+            fail("Expected IllegalArgumentException.");
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals("Start date can't be null.", e.getMessage());
+        }
+    }
+
+
+    /**F
      * Tests the askTripEndDate method if the given end date is before the start
      * date.
      */
