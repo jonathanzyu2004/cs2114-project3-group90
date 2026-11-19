@@ -22,10 +22,6 @@ public class TripTest extends TestCase {
     }
 
     // Test Trip constructor
-<<<<<<< HEAD
-    //@Test
-=======
->>>>>>> aa759b35305680957840963cbef5ad17e8fe6f02
     public void testTrip() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -58,10 +54,6 @@ public class TripTest extends TestCase {
     }
 
     // Test setters
-<<<<<<< HEAD
-    //@Test
-=======
->>>>>>> aa759b35305680957840963cbef5ad17e8fe6f02
     public void testSetDestination() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -176,7 +168,7 @@ public class TripTest extends TestCase {
     public void testEditNonexistentActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity original = createActivity("Museum",10,12);
+        Activity original = createActivity("Museum", 10, 12);
         Activity updated = createActivity("Art Gallery", 14, 16);
 
         trip.addActivity(original);
@@ -192,8 +184,8 @@ public class TripTest extends TestCase {
     public void testCompleteNextActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity activity1 = createActivity("Museum",10,12);
-        Activity activity2 = createActivity("Restaurant",12,13);
+        Activity activity1 = createActivity("Museum", 10, 12);
+        Activity activity2 = createActivity("Restaurant", 12, 13);
 
         trip.addActivity(activity1);
         trip.addActivity(activity2);
@@ -220,8 +212,8 @@ public class TripTest extends TestCase {
     public void testGetUpcomingActivities() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity activity1 = createActivity("Museum",10,12);
-        Activity activity2 = createActivity("Restaurant",12,13);
+        Activity activity1 = createActivity("Museum", 10, 12);
+        Activity activity2 = createActivity("Restaurant", 12, 13);
 
         trip.addActivity(activity1);
         trip.addActivity(activity2);
@@ -245,8 +237,8 @@ public class TripTest extends TestCase {
     public void testGetNextActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity activity1 = createActivity("Museum",10,12);
-        Activity activity2 = createActivity("Restaurant",12,13);
+        Activity activity1 = createActivity("Museum", 10, 12);
+        Activity activity2 = createActivity("Restaurant", 12, 13);
 
         trip.addActivity(activity1);
         trip.addActivity(activity2);
@@ -269,8 +261,8 @@ public class TripTest extends TestCase {
     public void testGetPastActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity activity1 = createActivity("Museum",10,12);
-        Activity activity2 = createActivity("Restaurant",12,13);
+        Activity activity1 = createActivity("Museum", 10, 12);
+        Activity activity2 = createActivity("Restaurant", 12, 13);
 
         trip.addActivity(activity1);
         trip.addActivity(activity2);
@@ -291,7 +283,7 @@ public class TripTest extends TestCase {
 
         assertTrue(trip.getPastActivity().isEmpty());
     }
-    
+
     public void testAddOverlappingActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -303,7 +295,7 @@ public class TripTest extends TestCase {
 
         assertEquals(1, trip.getUpcomingActivities().size());
     }
-    
+
     public void testAddBackToBackActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -315,7 +307,7 @@ public class TripTest extends TestCase {
 
         assertEquals(2, trip.getUpcomingActivities().size());
     }
-    
+
     public void testAddInvalidTimeRange() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -330,5 +322,5 @@ public class TripTest extends TestCase {
         assertFalse(trip.addActivity(invalid));
         assertTrue(trip.getUpcomingActivities().isEmpty());
     }
-    
+
 }
