@@ -11,17 +11,18 @@ public class TripTest extends TestCase{
     private final LocalDate startDate = LocalDate.of(2026, 6, 1);
     private final LocalDate endDate = LocalDate.of(2026, 6, 10);
 
-    private Activity createActivity(String name) {
+    private Activity createActivity(String name, int startHour, int endHour) {
         return new Activity(
                 name,
                 "Toronto",
                 LocalDate.of(2026, 6, 2),
-                LocalTime.of(10, 0),
-                "Example activity");
+                LocalTime.of(startHour, 0),
+                "Example activity",
+                LocalTime.of(endHour, 0));
     }
 
     // Test Trip constructor
-    @Test
+    //@Test
     public void testTrip() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -54,7 +55,7 @@ public class TripTest extends TestCase{
     }
 
     // Test setters
-    @Test
+    //@Test
     public void testSetDestination() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
@@ -99,9 +100,9 @@ public class TripTest extends TestCase{
     //@Test
     public void testAddActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
-        Activity activity = createActivity("Museum");
+        Activity activity = createActivity("Museum", 10, 12);
 
-        trip.addActivity(activity);
+        assertTrue(trip.addActivity(activity));
 
         assertEquals(1, trip.getUpcomingActivities().size());
         assertSame(activity, trip.getUpcomingActivities().get(0));
@@ -111,7 +112,7 @@ public class TripTest extends TestCase{
     public void testAddNullActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        trip.addActivity(null);
+        assertFalse(trip.addActivity(null));
 
         assertTrue(trip.getUpcomingActivities().isEmpty());
     }
@@ -121,8 +122,8 @@ public class TripTest extends TestCase{
     public void testRemoveActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity activity1 = createActivity("Museum");
-        Activity activity2 = createActivity("Restaurant");
+        Activity activity1 = createActivity("Museum", 10, 12);
+        Activity activity2 = createActivity("Restaurant", 12, 13);
 
         trip.addActivity(activity1);
         trip.addActivity(activity2);
@@ -135,7 +136,7 @@ public class TripTest extends TestCase{
     //@Test
     public void testRemoveNonexistentActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
-        Activity activity = createActivity("Museum");
+        Activity activity = createActivity("Museum", 10, 12);
 
         trip.addActivity(activity);
 
@@ -149,12 +150,12 @@ public class TripTest extends TestCase{
     public void testEditActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity original = createActivity("Museum");
-        Activity other = createActivity("Restaurant");
-        Activity updated = createActivity("Art Gallery");
+        Activity original = createActivity("Museum", 10, 12);
+        Activity other = createActivity("Restaurant", 12, 13);
+        Activity updated = createActivity("Art Gallery", 14, 16);
 
-        trip.addActivity(original);
-        trip.addActivity(other);
+        assertTrue(trip.addActivity(original));
+        assertTrue(trip.addActivity(other));
 
         assertTrue(trip.editActivity("Museum", updated));
 
@@ -169,8 +170,8 @@ public class TripTest extends TestCase{
     public void testEditNonexistentActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity original = createActivity("Museum");
-        Activity updated = createActivity("Art Gallery");
+        Activity original = createActivity("Museum",10,12);
+        Activity updated = createActivity("Art Gallery", 14, 16);
 
         trip.addActivity(original);
 
@@ -185,8 +186,8 @@ public class TripTest extends TestCase{
     public void testCompleteNextActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity activity1 = createActivity("Museum");
-        Activity activity2 = createActivity("Restaurant");
+        Activity activity1 = createActivity("Museum",10,12);
+        Activity activity2 = createActivity("Restaurant",12,13);
 
         trip.addActivity(activity1);
         trip.addActivity(activity2);
@@ -213,8 +214,8 @@ public class TripTest extends TestCase{
     public void testGetUpcomingActivities() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity activity1 = createActivity("Museum");
-        Activity activity2 = createActivity("Restaurant");
+        Activity activity1 = createActivity("Museum",10,12);
+        Activity activity2 = createActivity("Restaurant",12,13);
 
         trip.addActivity(activity1);
         trip.addActivity(activity2);
@@ -238,8 +239,8 @@ public class TripTest extends TestCase{
     public void testGetNextActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity activity1 = createActivity("Museum");
-        Activity activity2 = createActivity("Restaurant");
+        Activity activity1 = createActivity("Museum",10,12);
+        Activity activity2 = createActivity("Restaurant",12,13);
 
         trip.addActivity(activity1);
         trip.addActivity(activity2);
@@ -262,8 +263,8 @@ public class TripTest extends TestCase{
     public void testGetPastActivity() {
         Trip trip = new Trip("Toronto", startDate, endDate);
 
-        Activity activity1 = createActivity("Museum");
-        Activity activity2 = createActivity("Restaurant");
+        Activity activity1 = createActivity("Museum",10,12);
+        Activity activity2 = createActivity("Restaurant",12,13);
 
         trip.addActivity(activity1);
         trip.addActivity(activity2);
@@ -284,4 +285,44 @@ public class TripTest extends TestCase{
 
         assertTrue(trip.getPastActivity().isEmpty());
     }
+    
+    public void testAddOverlappingActivity() {
+        Trip trip = new Trip("Toronto", startDate, endDate);
+
+        Activity first = createActivity("Museum", 10, 12);
+        Activity overlapping = createActivity("Lunch", 11, 13);
+
+        assertTrue(trip.addActivity(first));
+        assertFalse(trip.addActivity(overlapping));
+
+        assertEquals(1, trip.getUpcomingActivities().size());
+    }
+    
+    public void testAddBackToBackActivity() {
+        Trip trip = new Trip("Toronto", startDate, endDate);
+
+        Activity first = createActivity("Museum", 10, 12);
+        Activity second = createActivity("Lunch", 12, 13);
+
+        assertTrue(trip.addActivity(first));
+        assertTrue(trip.addActivity(second));
+
+        assertEquals(2, trip.getUpcomingActivities().size());
+    }
+    
+    public void testAddInvalidTimeRange() {
+        Trip trip = new Trip("Toronto", startDate, endDate);
+
+        Activity invalid = new Activity(
+                "Museum",
+                "Toronto",
+                LocalDate.of(2026, 6, 2),
+                LocalTime.of(12, 0),
+                "Invalid activity",
+                LocalTime.of(10, 0));
+
+        assertFalse(trip.addActivity(invalid));
+        assertTrue(trip.getUpcomingActivities().isEmpty());
+    }
+    
 }

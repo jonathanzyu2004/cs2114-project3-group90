@@ -58,6 +58,7 @@ public class TripPlannerApp
                         newActivity.getLocation(),
                         newActivity.getDate(),
                         newActivity.getTime(),
+                        newActivity.getEndTime(),
                         newActivity.getDescription()))
                     {
                         view.displayMessage("Activity added successfully!");
@@ -85,11 +86,14 @@ public class TripPlannerApp
                     System.out.print("Enter new time (HH:MM): ");
                     LocalTime newTime = LocalTime.parse(input.nextLine());
 
+                    System.out.print("Enter new end time (HH:MM): ");
+                    LocalTime newEndTime = LocalTime.parse(input.nextLine());
+                    
                     System.out.print("Enter new description: ");
                     String newDescription = input.nextLine();
 
                     Activity updatedActivity = new Activity(
-                        newName, newLocation, newDate, newTime, newDescription);
+                        newName, newLocation, newDate, newTime, newDescription, newEndTime);
 
                     if (planner.editActivity(editName, updatedActivity))
                     {

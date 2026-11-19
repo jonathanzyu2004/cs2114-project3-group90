@@ -159,7 +159,11 @@ public class TripViewTest
     public void testAskActivityDetails()
     {
         TripView view = createView(
-            "Visit Museum\n" + "The MET\n" + "2026-01-06\n" + "10:30\n"
+            "Visit Museum\n"
+                + "The MET\n"
+                + "2026-01-06\n"
+                + "10:30\n"
+                + "12:00\n"
                 + "Explore the museum\n");
 
         Activity activity = view.askActivityDetails();
@@ -168,9 +172,9 @@ public class TripViewTest
         assertEquals("The MET", activity.getLocation());
         assertEquals(LocalDate.of(2026, 1, 6), activity.getDate());
         assertEquals(LocalTime.of(10, 30), activity.getTime());
+        assertEquals(LocalTime.of(12, 0), activity.getEndTime());
         assertEquals("Explore the museum", activity.getDescription());
     }
-
 
     /**
      * Tests the askActivityDetails method if the name is empty. 
@@ -178,13 +182,18 @@ public class TripViewTest
     public void testAskActivityDetailsEmptyName()
     {
         TripView view = createView(
-            "\n" + "Visit Museum\n" + "The MET\n" + "2026-01-06\n" + "10:30\n"
+            "\n"
+                + "Visit Museum\n"
+                + "The MET\n"
+                + "2026-01-06\n"
+                + "10:30\n"
+                + "12:00\n"
                 + "Explore the museum\n");
 
         Activity activity = view.askActivityDetails();
 
         assertEquals("Visit Museum", activity.getName());
-
+        assertEquals(LocalTime.of(12, 0), activity.getEndTime());
         assertTrue(output.toString().contains("This field can't be empty."));
     }
 
@@ -195,13 +204,18 @@ public class TripViewTest
     public void testAskActivityDetailsInvalidDate()
     {
         TripView view = createView(
-            "Visit Museum\n" + "The MET\n" + "not-a-date\n" + "2026-01-06\n"
-                + "10:30\n" + "Explore the museum\n");
+            "Visit Museum\n"
+                + "The MET\n"
+                + "not-a-date\n"
+                + "2026-01-06\n"
+                + "10:30\n"
+                + "12:00\n"
+                + "Explore the museum\n");
 
         Activity activity = view.askActivityDetails();
 
         assertEquals(LocalDate.of(2026, 1, 6), activity.getDate());
-
+        assertEquals(LocalTime.of(12, 0), activity.getEndTime());
         assertTrue(output.toString().contains("Invalid date."));
     }
 
@@ -212,17 +226,44 @@ public class TripViewTest
     public void testAskActivityDetailsInvalidTime()
     {
         TripView view = createView(
-            "Visit Museum\n" + "The MET\n" + "2026-01-06\n" + "invalid\n"
-                + "10:30\n" + "Explore the museum\n");
+            "Visit Museum\n"
+                + "The MET\n"
+                + "2026-01-06\n"
+                + "invalid\n"
+                + "10:30\n"
+                + "12:00\n"
+                + "Explore the museum\n");
 
         Activity activity = view.askActivityDetails();
 
         assertEquals(LocalTime.of(10, 30), activity.getTime());
-
+        assertEquals(LocalTime.of(12, 0), activity.getEndTime());
         assertTrue(output.toString().contains("Invalid time."));
     }
 
+    /**
+     * Tests the askActivityDetails method if the end time
+     * is before the start time.
+     */
+    public void testAskActivityDetailsInvalidEndTime()
+    {
+        TripView view = createView(
+            "Visit Museum\n"
+                + "The MET\n"
+                + "2026-01-06\n"
+                + "10:30\n"
+                + "09:30\n"
+                + "12:00\n"
+                + "Explore the museum\n");
 
+        Activity activity = view.askActivityDetails();
+
+        assertEquals(LocalTime.of(10, 30), activity.getTime());
+        assertEquals(LocalTime.of(12, 0), activity.getEndTime());
+        assertTrue(output.toString().contains(
+            "End time must be after start time."));
+    }
+    
     /**
      * Tests the displayActivity method.
      */
@@ -233,10 +274,10 @@ public class TripViewTest
             "The MET",
             LocalDate.of(2026, 1, 6),
             LocalTime.of(10, 30),
-            "Explore the museum");
+            "Explore the museum",
+            LocalTime.of(12, 0));
 
         TripView view = createView("");
-
         view.displayActivity(activity);
 
         String result = output.toString();
@@ -245,6 +286,8 @@ public class TripViewTest
         assertTrue(result.contains("The MET"));
         assertTrue(result.contains("2026-01-06"));
         assertTrue(result.contains("10:30"));
+        assertTrue(result.contains("12:00"));
+        assertTrue(result.contains("1 hours 30 minutes"));
         assertTrue(result.contains("Explore the museum"));
     }
 
@@ -259,17 +302,18 @@ public class TripViewTest
             "The MET",
             LocalDate.of(2026, 1, 6),
             LocalTime.of(10, 30),
-            "Explore the museum");
+            "Explore the museum",
+            LocalTime.of(12, 0));
 
         Activity second = new Activity(
             "Visit Park",
             "Central Park",
             LocalDate.of(2026, 1, 6),
             LocalTime.of(14, 30),
-            "Explore the park");
+            "Explore the park",
+            LocalTime.of(16, 0));
 
         TripView view = createView("");
-
         view.displayActivities(Arrays.asList(first, second));
 
         String result = output.toString();

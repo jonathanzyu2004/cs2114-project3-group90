@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Trip {
     private String destination;
     private LocalDate startDate;
@@ -47,10 +48,17 @@ public class Trip {
         }
     }
 
-    public void addActivity(Activity activity) {
-        if (activity != null) {
-            upcomingActivities.enqueue(activity);
+    public boolean addActivity(Activity activity) {
+        if (activity == null || !activity.hasValidTimeRange()) {
+            return false;
         }
+
+        if (hasScheduleConflict(activity)) {
+            return false;
+        }
+
+        upcomingActivities.enqueue(activity);
+        return true;
     }
 
     public boolean removeActivity(String name) {
@@ -58,29 +66,71 @@ public class Trip {
     }
 
     public boolean editActivity(String name, Activity updated) {
+        if (name == null || updated == null
+            || !updated.hasValidTimeRange()) {
+            return false;
+        }
+
         if (!upcomingActivities.contains(name)) {
             return false;
         }
-        boolean changed = false;
+
+        boolean conflict = false;
         Queue tempActivities = new Queue();
+
         while (!upcomingActivities.isEmpty()) {
-            if (changed || !upcomingActivities.peek().getName().equals(name)) {
-                tempActivities.enqueue(upcomingActivities.dequeue());
-            } else {
-                upcomingActivities.dequeue();
-                tempActivities.enqueue(updated);
-                changed = true;
+            Activity current = upcomingActivities.dequeue();
+
+            if (!current.getName().equals(name)
+                && current.getDate().equals(updated.getDate())) {
+
+                boolean overlaps =
+                    updated.getTime().isBefore(current.getEndTime())
+                    && updated.getEndTime().isAfter(current.getTime());
+
+                if (overlaps) {
+                    conflict = true;
+                }
             }
+
+            tempActivities.enqueue(current);
         }
+
         while (!tempActivities.isEmpty()) {
             upcomingActivities.enqueue(tempActivities.dequeue());
         }
-        return changed;
-    }
 
-    //
+        if (conflict) {
+            return false;
+        }
+
+        Queue replacementQueue = new Queue();
+        boolean replaced = false;
+
+        while (!upcomingActivities.isEmpty()) {
+            Activity current = upcomingActivities.dequeue();
+
+            if (!replaced && current.getName().equals(name)) {
+                replacementQueue.enqueue(updated);
+                replaced = true;
+            } else {
+                replacementQueue.enqueue(current);
+            }
+        }
+
+        while (!replacementQueue.isEmpty()) {
+            upcomingActivities.enqueue(replacementQueue.dequeue());
+        }
+
+        return replaced;
+    }
     public Activity completeNextActivity() {
         Activity activity = upcomingActivities.dequeue();
+
+        if (activity == null) {
+            return null;
+        }
+
         activity.setCompleted();
         pastActivities.add(activity);
         return activity;
@@ -97,4 +147,26 @@ public class Trip {
     public List<Activity> getPastActivity() {
         return pastActivities;
     }
+    
+    public boolean hasScheduleConflict(Activity activity) {
+        if (activity == null || !activity.hasValidTimeRange()) {
+            return true;
+        }
+
+        for (Activity existing : upcomingActivities.toList()) {
+            if (existing.getDate().equals(activity.getDate())) {
+
+                boolean overlaps =
+                    activity.getTime().isBefore(existing.getEndTime())
+                    && activity.getEndTime().isAfter(existing.getTime());
+
+                if (overlaps) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
 }

@@ -1,5 +1,6 @@
 
 import student.TestCase;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -10,7 +11,7 @@ import java.time.LocalTime;
  * @version 2026.11.11
  */
 public class TripPlannerTest
-        extends TestCase {
+    extends TestCase {
 
     private TripPlanner planner;
 
@@ -27,10 +28,10 @@ public class TripPlannerTest
      */
     public void testCreateTripValid() {
         assertTrue(
-                planner.createTrip(
-                        "New York",
-                        LocalDate.of(2027, 1, 10),
-                        LocalDate.of(2027, 1, 15)));
+            planner.createTrip(
+                "New York",
+                LocalDate.of(2027, 1, 10),
+                LocalDate.of(2027, 1, 15)));
     }
 
     /**
@@ -38,10 +39,10 @@ public class TripPlannerTest
      */
     public void testCreateTripEmptyDestination() {
         assertFalse(
-                planner.createTrip(
-                        "",
-                        LocalDate.of(2027, 1, 10),
-                        LocalDate.of(2027, 1, 15)));
+            planner.createTrip(
+                "",
+                LocalDate.of(2027, 1, 10),
+                LocalDate.of(2027, 1, 15)));
     }
 
     /**
@@ -49,10 +50,10 @@ public class TripPlannerTest
      */
     public void testCreateTripNullDestination() {
         assertFalse(
-                planner.createTrip(
-                        null,
-                        LocalDate.of(2027, 1, 10),
-                        LocalDate.of(2027, 1, 15)));
+            planner.createTrip(
+                null,
+                LocalDate.of(2027, 1, 10),
+                LocalDate.of(2027, 1, 15)));
     }
 
     /**
@@ -60,7 +61,10 @@ public class TripPlannerTest
      */
     public void testCreateTripNullStartDate() {
         assertFalse(
-                planner.createTrip("New York", null, LocalDate.of(2027, 1, 15)));
+            planner.createTrip(
+                "New York",
+                null,
+                LocalDate.of(2027, 1, 15)));
     }
 
     /**
@@ -68,7 +72,10 @@ public class TripPlannerTest
      */
     public void testCreateTripNullEndDate() {
         assertFalse(
-                planner.createTrip("New York", LocalDate.of(2027, 1, 10), null));
+            planner.createTrip(
+                "New York",
+                LocalDate.of(2027, 1, 10),
+                null));
     }
 
     /**
@@ -76,10 +83,10 @@ public class TripPlannerTest
      */
     public void testCreateTripEndBeforeStart() {
         assertFalse(
-                planner.createTrip(
-                        "New York",
-                        LocalDate.of(2027, 1, 15),
-                        LocalDate.of(2027, 1, 10)));
+            planner.createTrip(
+                "New York",
+                LocalDate.of(2027, 1, 15),
+                LocalDate.of(2027, 1, 10)));
     }
 
     /**
@@ -106,12 +113,13 @@ public class TripPlannerTest
         createValidTrip();
 
         assertFalse(
-                planner.addActivity(
-                        null,
-                        "New York",
-                        LocalDate.of(2027, 1, 11),
-                        LocalTime.of(10, 0),
-                        "Test description"));
+            planner.addActivity(
+                null,
+                "New York",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(10, 0),
+                LocalTime.of(11, 0),
+                "Test description"));
     }
 
     /**
@@ -121,12 +129,13 @@ public class TripPlannerTest
         createValidTrip();
 
         assertFalse(
-                planner.addActivity(
-                        "",
-                        "New York",
-                        LocalDate.of(2027, 1, 11),
-                        LocalTime.of(10, 0),
-                        "Test description"));
+            planner.addActivity(
+                "",
+                "New York",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(10, 0),
+                LocalTime.of(11, 0),
+                "Test description"));
     }
 
     /**
@@ -136,12 +145,13 @@ public class TripPlannerTest
         createValidTrip();
 
         assertFalse(
-                planner.addActivity(
-                        "Museum",
-                        null,
-                        LocalDate.of(2027, 1, 11),
-                        LocalTime.of(10, 0),
-                        "Test description"));
+            planner.addActivity(
+                "Museum",
+                null,
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(10, 0),
+                LocalTime.of(11, 0),
+                "Test description"));
     }
 
     /**
@@ -151,27 +161,61 @@ public class TripPlannerTest
         createValidTrip();
 
         assertFalse(
-                planner.addActivity(
-                        "Museum",
-                        "New York",
-                        null,
-                        LocalTime.of(10, 0),
-                        "Test description"));
+            planner.addActivity(
+                "Museum",
+                "New York",
+                null,
+                LocalTime.of(10, 0),
+                LocalTime.of(11, 0),
+                "Test description"));
     }
 
     /**
-     * Tests adding an activity with a null time.
+     * Tests adding an activity with a null start time.
      */
     public void testAddActivityNullTime() {
         createValidTrip();
 
         assertFalse(
-                planner.addActivity(
-                        "Museum",
-                        "New York",
-                        LocalDate.of(2027, 1, 11),
-                        null,
-                        "Test description"));
+            planner.addActivity(
+                "Museum",
+                "New York",
+                LocalDate.of(2027, 1, 11),
+                null,
+                LocalTime.of(11, 0),
+                "Test description"));
+    }
+
+    /**
+     * Tests adding an activity with a null end time.
+     */
+    public void testAddActivityNullEndTime() {
+        createValidTrip();
+
+        assertFalse(
+            planner.addActivity(
+                "Museum",
+                "New York",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(10, 0),
+                null,
+                "Test description"));
+    }
+
+    /**
+     * Tests adding an activity with an invalid time range.
+     */
+    public void testAddActivityInvalidTimeRange() {
+        createValidTrip();
+
+        assertFalse(
+            planner.addActivity(
+                "Museum",
+                "New York",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(12, 0),
+                LocalTime.of(11, 0),
+                "Test description"));
     }
 
     /**
@@ -194,6 +238,38 @@ public class TripPlannerTest
     }
 
     /**
+     * Tests preventing activities with overlapping times.
+     */
+    public void testAddActivityOverlappingTime() {
+        createValidTrip();
+
+        assertTrue(addTestActivity("Museum", 11, 10));
+
+        assertFalse(
+            planner.addActivity(
+                "Aquarium",
+                "New York",
+                LocalDate.of(2027, 1, 11),
+                LocalTime.of(10, 30),
+                LocalTime.of(11, 30),
+                "Test description"));
+
+        assertEquals(1, planner.viewUpcomingActivities().size());
+    }
+
+    /**
+     * Tests allowing activities scheduled back-to-back.
+     */
+    public void testAddActivityBackToBack() {
+        createValidTrip();
+
+        assertTrue(addTestActivity("Museum", 11, 10));
+        assertTrue(addTestActivity("Aquarium", 11, 11));
+
+        assertEquals(2, planner.viewUpcomingActivities().size());
+    }
+
+    /**
      * Tests successfully editing an existing activity.
      */
     public void testEditActivityValid() {
@@ -201,11 +277,12 @@ public class TripPlannerTest
         addTestActivity("Museum", 11, 10);
 
         Activity updatedActivity = new Activity(
-                "Museum",
-                "New York City Museum",
-                LocalDate.of(2027, 1, 11),
-                LocalTime.of(11, 0),
-                "Updated description");
+            "Museum",
+            "New York City Museum",
+            LocalDate.of(2027, 1, 11),
+            LocalTime.of(11, 0),
+            "Updated description",
+            LocalTime.of(12, 0));
 
         assertTrue(planner.editActivity("Museum", updatedActivity));
     }
@@ -218,11 +295,12 @@ public class TripPlannerTest
         addTestActivity("Museum", 11, 10);
 
         Activity updatedActivity = new Activity(
-                "Museum",
-                "New York City Museum",
-                LocalDate.of(2027, 1, 11),
-                LocalTime.of(11, 0),
-                "Updated description");
+            "Museum",
+            "New York City Museum",
+            LocalDate.of(2027, 1, 11),
+            LocalTime.of(11, 0),
+            "Updated description",
+            LocalTime.of(12, 0));
 
         assertTrue(planner.editActivity("museum", updatedActivity));
     }
@@ -234,11 +312,12 @@ public class TripPlannerTest
         createValidTrip();
 
         Activity updatedActivity = new Activity(
-                "Museum",
-                "New York",
-                LocalDate.of(2027, 1, 11),
-                LocalTime.of(10, 0),
-                "Updated description");
+            "Museum",
+            "New York",
+            LocalDate.of(2027, 1, 11),
+            LocalTime.of(10, 0),
+            "Updated description",
+            LocalTime.of(11, 0));
 
         assertFalse(planner.editActivity("Museum", updatedActivity));
     }
@@ -248,11 +327,12 @@ public class TripPlannerTest
      */
     public void testEditActivityWithoutTrip() {
         Activity updatedActivity = new Activity(
-                "Museum",
-                "New York",
-                LocalDate.of(2027, 1, 11),
-                LocalTime.of(10, 0),
-                "Updated description");
+            "Museum",
+            "New York",
+            LocalDate.of(2027, 1, 11),
+            LocalTime.of(10, 0),
+            "Updated description",
+            LocalTime.of(11, 0));
 
         assertFalse(planner.editActivity("Museum", updatedActivity));
     }
@@ -266,11 +346,12 @@ public class TripPlannerTest
         addTestActivity("Aquarium", 12, 10);
 
         Activity updatedActivity = new Activity(
-                "Aquarium",
-                "New York",
-                LocalDate.of(2027, 1, 11),
-                LocalTime.of(11, 0),
-                "Updated description");
+            "Aquarium",
+            "New York",
+            LocalDate.of(2027, 1, 11),
+            LocalTime.of(11, 0),
+            "Updated description",
+            LocalTime.of(12, 0));
 
         assertFalse(planner.editActivity("Museum", updatedActivity));
     }
@@ -283,11 +364,12 @@ public class TripPlannerTest
         addTestActivity("Museum", 11, 10);
 
         Activity updatedActivity = new Activity(
-                "Museum",
-                "New York",
-                LocalDate.of(2027, 1, 16),
-                LocalTime.of(11, 0),
-                "Updated description");
+            "Museum",
+            "New York",
+            LocalDate.of(2027, 1, 16),
+            LocalTime.of(11, 0),
+            "Updated description",
+            LocalTime.of(12, 0));
 
         assertFalse(planner.editActivity("Museum", updatedActivity));
     }
@@ -300,6 +382,26 @@ public class TripPlannerTest
         addTestActivity("Museum", 11, 10);
 
         assertFalse(planner.editActivity("Museum", null));
+    }
+
+    /**
+     * Tests preventing an activity from being edited into a time conflict.
+     */
+    public void testEditActivityOverlappingTime() {
+        createValidTrip();
+
+        addTestActivity("Museum", 11, 10);
+        addTestActivity("Aquarium", 11, 12);
+
+        Activity updatedActivity = new Activity(
+            "Museum",
+            "New York",
+            LocalDate.of(2027, 1, 11),
+            LocalTime.of(11, 30),
+            "Updated description",
+            LocalTime.of(12, 30));
+
+        assertFalse(planner.editActivity("Museum", updatedActivity));
     }
 
     /**
@@ -444,28 +546,29 @@ public class TripPlannerTest
      */
     private void createValidTrip() {
         planner.createTrip(
-                "New York",
-                LocalDate.of(2027, 1, 10),
-                LocalDate.of(2027, 1, 15));
+            "New York",
+            LocalDate.of(2027, 1, 10),
+            LocalDate.of(2027, 1, 15));
     }
 
     /**
-     * Adds a test activity using the specified name, day, and hour.
+     * Adds a test activity using the specified name, day, and start hour.
      *
      * @param name
-     *             the activity name
+     *            the activity name
      * @param day
-     *             the day of January 2027
+     *            the day of January 2027
      * @param hour
-     *             the activity start hour
+     *            the activity start hour
      * @return true if the activity was successfully added
      */
     private boolean addTestActivity(String name, int day, int hour) {
         return planner.addActivity(
-                name,
-                "New York",
-                LocalDate.of(2027, 1, day),
-                LocalTime.of(hour, 0),
-                "Test description");
+            name,
+            "New York",
+            LocalDate.of(2027, 1, day),
+            LocalTime.of(hour, 0),
+            LocalTime.of(hour + 1, 0),
+            "Test description");
     }
 }

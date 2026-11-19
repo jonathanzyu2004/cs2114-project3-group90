@@ -69,6 +69,8 @@ public class TripPlanner {
      *                    the date of the activity
      * @param time
      *                    the starting time of the activity
+     * @param endTime
+     *                    the ending time of the activity
      * @param description
      *                    a description of the activity
      * @return true if the activity was successfully added, false otherwise
@@ -78,14 +80,20 @@ public class TripPlanner {
             String location,
             LocalDate date,
             LocalTime time,
+            LocalTime endTime,
             String description) {
 
         if (trip == null) {
             return false;
         }
 
-        if (name == null || name.trim().isEmpty() || location == null
-                || location.trim().isEmpty() || date == null || time == null) {
+        if (name == null || name.trim().isEmpty()
+                || location == null || location.trim().isEmpty()
+                || date == null || time == null || endTime == null) {
+            return false;
+        }
+
+        if (!endTime.isAfter(time)) {
             return false;
         }
 
@@ -98,11 +106,10 @@ public class TripPlanner {
             return false;
         }
 
-        Activity newActivity = new Activity(name.trim(), location.trim(), date, time, description);
+        Activity newActivity = new Activity(
+                name.trim(), location.trim(), date, time, description, endTime);
 
-        trip.addActivity(newActivity);
-
-        return true;
+        return trip.addActivity(newActivity);
     }
 
     /**
@@ -314,19 +321,14 @@ public class TripPlanner {
                 && first.trim().equalsIgnoreCase(second.trim());
     }
 
-    /**
-     * Checks whether an activity has all required information.
-     *
-     * @param activity
-     *                 the activity to validate
-     * @return true if all required fields are valid
-     */
     private boolean isValidActivity(Activity activity) {
 
-        return activity != null && activity.getName() != null
+        return activity != null
+                && activity.getName() != null
                 && !activity.getName().trim().isEmpty()
                 && activity.getLocation() != null
                 && !activity.getLocation().trim().isEmpty()
-                && activity.getDate() != null && activity.getTime() != null;
+                && activity.getDate() != null
+                && activity.hasValidTimeRange();
     }
 }

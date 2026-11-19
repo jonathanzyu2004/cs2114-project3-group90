@@ -169,8 +169,8 @@ public class TripView
 
 
     /**
-     * Asks the user for activity details and creates the activity accordingly. 
-     * 
+     * Asks the user for activity details and creates the activity accordingly.
+     *
      * @return the activity created by the user
      */
     public Activity askActivityDetails()
@@ -181,14 +181,15 @@ public class TripView
         String location = askRequiredText("Activity location: ");
 
         LocalDate date = askDate("Activity Date (YYYY-MM-DD): ");
-        LocalTime time = askTime("Activity Time (HH:MM): ");
+        LocalTime time = askTime("Activity Start Time (HH:MM): ");
+        LocalTime endTime = askEndTime(time);
 
         String description =
             readInput("Activity description (press Enter for default): ");
 
-        return new Activity(name, location, date, time, description);
+        return new Activity(
+            name, location, date, time, description, endTime);
     }
-
 
     /**
      * Asks for a non-empty text value.
@@ -236,6 +237,27 @@ public class TripView
         }
     }
 
+    /**
+     * Reads and validates an activity end time.
+     *
+     * @param startTime the activity's starting time
+     * @return valid activity end time
+     */
+    private LocalTime askEndTime(LocalTime startTime)
+    {
+        while (true)
+        {
+            LocalTime endTime = askTime("Activity End Time (HH:MM): ");
+
+            if (endTime.isAfter(startTime))
+            {
+                return endTime;
+            }
+
+            output.println("End time must be after start time.");
+        }
+    }
+    
 
     /**
      * Displays one activity.
@@ -254,7 +276,14 @@ public class TripView
         output.println("Name: " + activity.getName());
         output.println("Location: " + activity.getLocation());
         output.println("Date: " + activity.getDate());
-        output.println("Time: " + activity.getTime());
+        output.println("Start Time: " + activity.getTime());
+        output.println("End Time: " + activity.getEndTime());
+
+        long duration = activity.getDuration().toMinutes();
+
+        output.println("Duration: " + (duration / 60)
+            + " hours " + (duration % 60) + " minutes");
+
         output.println("Description: " + activity.getDescription());
         output.println("Completed: " + activity.isCompleted());
     }
