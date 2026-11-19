@@ -1,3 +1,41 @@
+# Deliverable 4
+
+## Reflection — in your README.md, under a “Reflection” heading, address:
+
+### How did your design absorb the change? List the classes your feature actually touched. Compare that with the prediction in your D3 Next Steps: what matched, what surprised you?
+
+    We updated the activities to have a end time as well as to autocomplete activities. Our designed absorbed the change relatively easily because we were adding a feature and not rewriting over anything as much. This ended up requiring the activity(model), trip(model), tripPlanner(controllor), TripView and tripPlannerApp to experience differing levels of changes. It suprsied how easy some of the changes were to implement because the structure of the code did not require too much rewriting. However, it also required looking at a large percentage of our classes because any change can can have far reaching affects.
+
+### Did the change cross the model/view line? Did the view have to learn anything new about the model? If a change rippled through layers it shouldn't have, where and why?
+    The view did have to be updated because it had to accommodate the new infomration being added.
+
+### What changed from your D3 plan? Features, signatures, validation, or tests that differ from what you said you'd do, and why.
+    Nothing differed
+
+### What doesn't work yet? MVP features, bad-input cases, or tests that are missing or failing.
+    Nothing is not working in our current version.
+
+## Next Steps
+
+### What is left for the final build? Remaining features and fixes, in order.
+    Tests for the new changes we made. 
+
+### Which stretch goals are you committing to, and which are you dropping?
+    We are dropping the strethc goal of combining different schedules together as well have muitply queues of either different time ranges or of different types of activities. 
+    We succesfully implemeted automatically competing activities and to allow activities to have a start and end date.
+
+    Automatically archive the past instead of permanently deleting them. Allowing past activities to be seen Save and restore trips and their activities allowing the schedules to be stored long term.
+
+### What will your 3-minute demo show? The path you'll walk through, including the new feature.
+    Our 3-minute demo will showcase a couple activities being created, with one activity being created with a due date in the past showcasing that activities are automatically completed. It will also show an activity being edited and removed.
+### Who does what? Which team member owns each remaining item.
+    We are completed with the coding aspect. We will split up the slides and remaining documentation for the final deliverable by who did which part of the code.
+
+
+
+
+# Deliverable 3
+
 ## Reflection
 
 ### What changed from your specification? Classes, method signatures, where validation lives, test cases — what did the spec say, what did you build instead, and why?
